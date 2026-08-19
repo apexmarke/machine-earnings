@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Machine Earnings</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .login-btn {
+            background: white;
+            color: #111827;
+            border: none;
+            padding: 10px 17px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .hero {
+            padding: 65px 20px;
+            text-align: center;
+            background: linear-gradient(
+                135deg,
+                #111827,
+                #263449
+            );
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: auto;
+            line-height: 1.6;
+            color: #dbe3ef;
+        }
+
+        .cta {
+            margin-top: 25px;
+            padding: 14px 25px;
+            border: none;
+            border-radius: 9px;
+            background: #16a34a;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .machines {
+            padding: 40px 20px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .machines h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .machine-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+        }
+
+        .machine {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.07);
+        }
+
+        .machine h3 {
+            margin-bottom: 12px;
+        }
+
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .machine p {
+            color: #667085;
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #667085;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Machine Earnings
+    </div>
+
+    <button
+        class="login-btn"
+        onclick="alert('Login coming soon')"
+    >
+        Login
+    </button>
+
+</header>
+
+
+<section class="hero">
+
+    <h1>
+        Build Your Digital Earnings
+    </h1>
+
+    <p>
+        Choose a machine that matches your
+        preferred level and manage everything
+        from one simple platform.
+    </p>
+
+    <button
+        class="cta"
+        onclick="alert('Registration coming soon')"
+    >
+        Get Started
+    </button>
+
+</section>
+
+
+<section class="machines">
+
+    <h2>
+        Available Machines
+    </h2>
+
+    <div class="machine-grid">
+
+
+        <div class="machine">
+
+            <h3>
+                Starter Machine
+            </h3>
+
+            <div class="price">
+                KSh 700
+            </div>
+
+            <p>
+                Entry-level machine.
+            </p>
+
+        </div>
+
+
+        <div class="machine">
+
+            <h3>
+                Basic Machine
+            </h3>
+
+            <div class="price">
+                KSh 1,500
+            </div>
+
+            <p>
+                Designed for growing users.
+            </p>
+
+        </div>
+
+
+        <div class="machine">
+
+            <h3>
+                Pro Machine
+            </h3>
+
+            <div class="price">
+                KSh 3,500
+            </div>
+
+            <p>
+                Higher-capacity machine.
+            </p>
+
+        </div>
+
+
+        <div class="machine">
+
+            <h3>
+                Business Machine
+            </h3>
+
+            <div class="price">
+                KSh 7,500
+            </div>
+
+            <p>
+                Built for larger participation.
+            </p>
+
+        </div>
+
+
+        <div class="machine">
+
+            <h3>
+                Enterprise Machine
+            </h3>
+
+            <div class="price">
+                KSh 15,000
+            </div>
+
+            <p>
+                Our highest-level machine.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    © 2026 Machine Earnings
+
+</footer>
+
+
+</body>
+
+  </html>
