@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Create Account - Machine Earnings</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Machine Earnings
+    </div>
+
+</header>
+
+
+<section class="hero">
+
+    <h1>
+        Create Your Account
+    </h1>
+
+    <p>
+        Join the platform and manage your machines
+        from one dashboard.
+    </p>
+
+</section>
+
+
+<section class="machines">
+
+    <div
+        class="machine"
+        style="max-width:450px;margin:auto;"
+    >
+
+        <h2 style="margin-bottom:20px;">
+            Sign Up
+        </h2>
+
+
+        <form id="signupForm">
+
+
+            <input
+                type="text"
+                id="fullName"
+                placeholder="Full name"
+                required
+                style="
+                    width:100%;
+                    padding:14px;
+                    margin-bottom:15px;
+                    border:1px solid #ddd;
+                    border-radius:8px;
+                "
+            >
+
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Email address"
+                required
+                style="
+                    width:100%;
+                    padding:14px;
+                    margin-bottom:15px;
+                    border:1px solid #ddd;
+                    border-radius:8px;
+                "
+            >
+
+
+            <input
+                type="tel"
+                id="phone"
+                placeholder="M-Pesa phone number"
+                required
+                style="
+                    width:100%;
+                    padding:14px;
+                    margin-bottom:15px;
+                    border:1px solid #ddd;
+                    border-radius:8px;
+                "
+            >
+
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                required
+                minlength="6"
+                style="
+                    width:100%;
+                    padding:14px;
+                    margin-bottom:15px;
+                    border:1px solid #ddd;
+                    border-radius:8px;
+                "
+            >
+
+
+            <input
+                type="text"
+                id="referral"
+                placeholder="Referral code (optional)"
+                style="
+                    width:100%;
+                    padding:14px;
+                    margin-bottom:15px;
+                    border:1px solid #ddd;
+                    border-radius:8px;
+                "
+            >
+
+
+            <button
+                type="submit"
+                class="cta"
+                style="width:100%;"
+            >
+                Create Account
+            </button>
+
+
+        </form>
+
+
+        <p
+            style="
+                margin-top:20px;
+                text-align:center;
+            "
+        >
+
+            Already have an account?
+
+            <a
+                href="login.html"
+                style="
+                    color:#16a34a;
+                    font-weight:bold;
+                "
+            >
+                Login
+            </a>
+
+        </p>
+
+
+    </div>
+
+</section>
+
+
+<script>
+
+document
+    .getElementById("signupForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+            alert(
+                "Account system will be connected to Supabase next."
+            );
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>
