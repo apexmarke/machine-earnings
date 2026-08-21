@@ -125,3 +125,15 @@ footer {
     }
 
 }
+a {
+    text-decoration: none;
+    display: inline-block;
+}
+
+.login-btn {
+    cursor: pointer;
+}
+
+.cta {
+    cursor: pointer;
+}
