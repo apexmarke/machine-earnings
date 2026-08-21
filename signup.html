@@ -275,13 +275,14 @@ document
 
                 if (profileError) {
 
-                    console.error(profileError);
+    console.error("PROFILE ERROR:", profileError);
 
-                    alert(
-                        "Account created, but profile setup failed."
-                    );
+    alert(
+        "Profile error: " +
+        profileError.message
+    );
 
-                    return;
+    return;
                 }
 
 
