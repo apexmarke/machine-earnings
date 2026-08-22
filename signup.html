@@ -241,58 +241,22 @@ document
 
                 const user = data.user;
 
-
-                if (!user) {
-
-                    alert(
-                        "Account created. Please check your email to continue."
-                    );
-
-                    return;
-                }
-
-
-                const {
-                    error: profileError
-                } =
-                await supabaseClient
-                    .from("profiles")
-                    .insert({
-
-                        id: user.id,
-
-                        full_name: fullName,
-
-                        phone: phone,
-
-                        referral_code:
-                            referral || null,
-
-                        balance: 0
-
-                    });
-
-
-                if (profileError) {
-
-    console.error("PROFILE ERROR:", profileError);
+if (!user) {
 
     alert(
-        "Profile error: " +
-        profileError.message
+        "Account created. Please check your email to continue."
     );
 
     return;
-                }
+}
 
+alert(
+    "Account created successfully! " +
+    "Please check your email to confirm your account."
+);
 
-                alert(
-                    "Account created successfully!"
-                );
-
-
-                window.location.href =
-                    "login.html";
+window.location.href =
+    "login.html";
 
 
             } catch (error) {
