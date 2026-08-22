@@ -204,7 +204,7 @@ document
                     } =
                     await supabaseClient
                         .from("profiles")
-                        .insert({
+                        .upsert({
 
                             id: user.id,
 
