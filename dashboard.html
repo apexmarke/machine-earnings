@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Dashboard - Machine Earnings</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Machine Earnings
+    </div>
+
+    <button
+        class="login-btn"
+        id="logoutBtn"
+    >
+        Logout
+    </button>
+
+</header>
+
+
+<section class="hero">
+
+    <h1>
+        Welcome, <span id="userName">User</span> 👋
+    </h1>
+
+    <p>
+        Manage your machines and track your earnings.
+    </p>
+
+</section>
+
+
+<section class="machines">
+
+    <div class="machine">
+
+        <h3>
+            Available Balance
+        </h3>
+
+        <div class="price">
+            KSh <span id="balance">0.00</span>
+        </div>
+
+        <p>
+            Your current available balance.
+        </p>
+
+    </div>
+
+
+    <br>
+
+
+    <h2>
+        Your Machines
+    </h2>
+
+
+    <div
+        class="machine-grid"
+        id="machineList"
+    >
+
+        <div class="machine">
+
+            <h3>
+                No machines yet
+            </h3>
+
+            <p>
+                Purchase your first machine
+                to start earning.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<script src="supabase.js"></script>
+
+<script>
+
+async function loadDashboard() {
+
+    try {
+
+        const {
+            data: {
+                user
+            },
+            error
+        } =
+        await supabaseClient.auth.getUser();
+
+
+        if (error || !user) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+        }
+
+
+        const {
+            data: profile,
+            error: profileError
+        } =
+        await supabaseClient
+            .from("profiles")
+            .select(
+                "full_name, balance"
+            )
+            .eq("id", user.id)
+            .single();
+
+
+        if (profileError) {
+
+            console.error(
+                profileError
+            );
+
+            return;
+        }
+
+
+        document
+            .getElementById("userName")
+            .textContent =
+            profile.full_name || "User";
+
+
+        document
+            .getElementById("balance")
+            .textContent =
+            Number(
+                profile.balance || 0
+            ).toFixed(2);
+
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+document
+    .getElementById("logoutBtn")
+    .addEventListener(
+        "click",
+        async function() {
+
+            await supabaseClient.auth.signOut();
+
+            window.location.href =
+                "login.html";
+
+        }
+    );
+
+
+loadDashboard();
+
+</script>
+
+</body>
+
+</html>
