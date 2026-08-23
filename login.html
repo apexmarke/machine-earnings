@@ -122,10 +122,15 @@ document
             event.preventDefault();
 
             const email =
-                document.getElementById("email").value.trim();
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
 
             const password =
-                document.getElementById("password").value;
+                document
+                    .getElementById("password")
+                    .value;
 
 
             try {
@@ -151,10 +156,7 @@ document
                 }
 
 
-                const user = data.user;
-
-
-                if (!user) {
+                if (!data.user) {
 
                     alert("Login failed.");
 
@@ -162,62 +164,8 @@ document
                 }
 
 
-                /*
-                 * Create the user's profile after login.
-                 * At this point auth.uid() is available,
-                 * so the RLS INSERT policy can allow it.
-                 */
-
-                
-
-                    const metadata =
-                        user.user_metadata || {};
-
-
-                    const {
-                        error: profileError
-                    } =
-                    await supabaseClient
-                        .from("profiles")
-                        .upsert({
-
-                            id: user.id,
-
-                            full_name:
-                                metadata.full_name ||
-                                "User",
-
-                            phone:
-                                metadata.phone ||
-                                null,
-
-                            referral_code:
-                                metadata.referral_code ||
-                                null,
-
-                            balance: 0
-
-                        });
-
-
-                    if (profileError) {
-
-                        console.error(
-                            profileError
-                        );
-
-                        alert(
-                            "Profile setup failed: " +
-                            profileError.message
-                        );
-
-                        return;
-                    }
-
-                }
-
-
                 alert("Login successful!");
+
 
                 window.location.href =
                     "dashboard.html";
