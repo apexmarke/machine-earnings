@@ -168,32 +168,7 @@ document
                  * so the RLS INSERT policy can allow it.
                  */
 
-                const {
-                    data: existingProfile,
-                    error: profileCheckError
-                } =
-                await supabaseClient
-                    .from("profiles")
-                    .select("id")
-                    .eq("id", user.id)
-                    .maybeSingle();
-
-
-                if (profileCheckError) {
-
-                    console.error(
-                        profileCheckError
-                    );
-
-                    alert(
-                        "Could not check your profile."
-                    );
-
-                    return;
-                }
-
-
-                if (!existingProfile) {
+                
 
                     const metadata =
                         user.user_metadata || {};
