@@ -78,22 +78,10 @@
 
 
     <div
-        class="machine-grid"
-        id="machineList"
-    >
-
-        <div class="machine">
-
-            <h3>
-                No machines yet
-            </h3>
-
-            <p>
-                Purchase your first machine
-                to start earning.
-            </p>
-
-        </div>
+    class="machine-grid"
+    id="machineList"
+>
+</div>
 
     </div>
 
@@ -171,7 +159,102 @@ async function loadDashboard() {
 
 }
 
+async function loadMachines() {
 
+    const machineList =
+        document.getElementById("machineList");
+
+    machineList.innerHTML =
+        "<p>Loading machines...</p>";
+
+
+    const {
+        data: machines,
+        error
+    } =
+    await supabaseClient
+        .from("machines")
+        .select("*")
+        .order("price", {
+            ascending: true
+        });
+
+
+    if (error) {
+
+        console.error(error);
+
+        machineList.innerHTML =
+            "<p>Unable to load machines.</p>";
+
+        return;
+    }
+
+
+    if (!machines || machines.length === 0) {
+
+        machineList.innerHTML =
+            "<p>No machines available yet.</p>";
+
+        return;
+    }
+
+
+    machineList.innerHTML = "";
+
+
+    machines.forEach(function(machine) {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "machine";
+
+
+        card.innerHTML = `
+
+            <h3>
+                ${machine.name}
+            </h3>
+
+            <div class="price">
+                KSh ${Number(machine.price).toLocaleString()}
+            </div>
+
+            <p>
+                Daily earning:
+                KSh ${Number(
+                    machine.daily_earning
+                ).toLocaleString()}
+            </p>
+
+            <p>
+                Duration:
+                ${machine.duration_days} days
+            </p>
+
+            <p>
+                Total scheduled earnings:
+                KSh ${Number(
+                    machine.total_earning
+                ).toLocaleString()}
+            </p>
+
+            <button
+                class="login-btn"
+                type="button"
+            >
+                Buy Machine
+            </button>
+
+        `;
+
+
+        machineList.appendChild(card);
+
+    });
+
+}
 document
     .getElementById("logoutBtn")
     .addEventListener(
@@ -188,6 +271,7 @@ document
 
 
 loadDashboard();
+loadMachines();
 
 </script>
 
