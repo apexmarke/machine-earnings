@@ -241,11 +241,12 @@ async function loadMachines() {
             </p>
 
             <button
-                class="login-btn"
-                type="button"
-            >
-                Buy Machine
-            </button>
+    class="login-btn"
+    type="button"
+    onclick="buyMachine(${machine.id})"
+>
+    Buy Machine
+</button>
 
         `;
 
@@ -255,6 +256,89 @@ async function loadMachines() {
     });
 
 }
+    async function buyMachine(machineId) {
+
+    const {
+        data: {
+            user
+        },
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+    if (userError || !user) {
+        alert("Please login again.");
+        window.location.href = "login.html";
+        return;
+    }
+
+    const {
+        data: machine,
+        error: machineError
+    } = await supabaseClient
+        .from("machines")
+        .select("*")
+        .eq("id", machineId)
+        .single();
+
+    if (machineError || !machine) {
+        alert("Machine could not be found.");
+        return;
+    }
+
+    const confirmPurchase = confirm(
+        "Buy " +
+        machine.name +
+        " for KSh " +
+        Number(machine.price).toLocaleString() +
+        "?"
+    );
+
+    if (!confirmPurchase) {
+        return;
+    }
+
+    const {
+        error
+    } = await supabaseClient
+        .from("user_machines")
+        .insert({
+
+            user_id: user.id,
+
+            machine_id: machine.id,
+
+            machine_name: machine.name,
+
+            price: machine.price,
+
+            daily_earning: machine.daily_earning,
+
+            duration_days: machine.duration_days,
+
+            total_earning: machine.total_earning,
+
+            purchased_at: new Date().toISOString()
+
+        });
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Purchase failed: " +
+            error.message
+        );
+
+        return;
+    }
+
+    alert(
+        machine.name +
+        " purchased successfully!"
+    );
+
+    }
 document
     .getElementById("logoutBtn")
     .addEventListener(
