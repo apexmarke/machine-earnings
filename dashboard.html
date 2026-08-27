@@ -71,7 +71,18 @@
 
     <br>
 
+<h2>
+    Available Machines
+</h2>
 
+<div
+    class="machine-grid"
+    id="availableMachineList"
+>
+    <p>Loading available machines...</p>
+</div>
+
+<br>
     <h2>
         Your Machines
     </h2>
@@ -457,6 +468,103 @@ async function loadMachines() {
     });
 
 }
+ async function loadAvailableMachines() {
+
+    const machineList =
+        document.getElementById(
+            "availableMachineList"
+        );
+
+    const {
+        data: machines,
+        error
+    } =
+    await supabaseClient
+        .from("machines")
+        .select("*")
+        .order("price", {
+            ascending: true
+        });
+
+
+    if (error) {
+
+        console.error(error);
+
+        machineList.innerHTML =
+            "<p>Unable to load machines.</p>";
+
+        return;
+    }
+
+
+    if (!machines || machines.length === 0) {
+
+        machineList.innerHTML =
+            "<p>No machines available.</p>";
+
+        return;
+    }
+
+
+    machineList.innerHTML = "";
+
+
+    machines.forEach(function(machine) {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "machine";
+
+
+        card.innerHTML = `
+
+            <h3>
+                ${machine.name}
+            </h3>
+
+            <div class="price">
+                KSh ${Number(
+                    machine.price
+                ).toLocaleString()}
+            </div>
+
+            <p>
+                Daily earning:
+                KSh ${Number(
+                    machine.daily_earning
+                ).toLocaleString()}
+            </p>
+
+            <p>
+                Duration:
+                ${machine.duration_days} days
+            </p>
+
+            <p>
+                Total scheduled earnings:
+                KSh ${Number(
+                    machine.total_earning
+                ).toLocaleString()}
+            </p>
+
+            <button
+                class="login-btn"
+                type="button"
+                onclick="buyMachine(${machine.id})"
+            >
+                Buy Machine
+            </button>
+
+        `;
+
+
+        machineList.appendChild(card);
+
+    });
+
+}   
 document
     .getElementById("logoutBtn")
     .addEventListener(
@@ -474,6 +582,7 @@ document
 
 loadDashboard();
 loadUserMachines();
+loadAvailableMachines();
 
 </script>
 
