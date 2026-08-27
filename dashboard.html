@@ -340,6 +340,123 @@ async function loadMachines() {
     );
 
     }
+    async function loadUserMachines() {
+
+    const {
+        data: {
+            user
+        },
+        error: userError
+    } =
+    await supabaseClient.auth.getUser();
+
+
+    if (userError || !user) {
+        return;
+    }
+
+
+    const {
+        data: purchases,
+        error
+    } =
+    await supabaseClient
+        .from("user_machines")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("purchased_at", {
+            ascending: false
+        });
+
+
+    const machineList =
+        document.getElementById("machineList");
+
+
+    if (error) {
+
+        console.error(error);
+
+        machineList.innerHTML =
+            "<p>Unable to load your machines.</p>";
+
+        return;
+    }
+
+
+    if (!purchases || purchases.length === 0) {
+
+        machineList.innerHTML = `
+            <div class="machine">
+
+                <h3>No machines purchased yet</h3>
+
+                <p>
+                    Purchase a machine to start.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    machineList.innerHTML = "";
+
+
+    purchases.forEach(function(machine) {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "machine";
+
+
+        card.innerHTML = `
+
+            <h3>
+                ${machine.machine_name}
+            </h3>
+
+            <p>
+                Purchase price:
+                KSh ${Number(
+                    machine.price
+                ).toLocaleString()}
+            </p>
+
+            <p>
+                Daily earning:
+                KSh ${Number(
+                    machine.daily_earning
+                ).toLocaleString()}
+            </p>
+
+            <p>
+                Duration:
+                ${machine.duration_days} days
+            </p>
+
+            <p>
+                Total scheduled earnings:
+                KSh ${Number(
+                    machine.total_earning
+                ).toLocaleString()}
+            </p>
+
+            <p>
+                Status: Active
+            </p>
+
+        `;
+
+
+        machineList.appendChild(card);
+
+    });
+
+}
 document
     .getElementById("logoutBtn")
     .addEventListener(
@@ -356,7 +473,7 @@ document
 
 
 loadDashboard();
-loadMachines();
+loadUserMachines();
 
 </script>
 
