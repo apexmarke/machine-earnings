@@ -51,7 +51,46 @@
 
 
 <section class="machines">
+<section class="deposit-section">
 
+    <h2>Deposit Funds</h2>
+
+    <div class="machine">
+
+        <p>
+            Enter the amount you want to deposit.
+        </p>
+
+        <input
+            type="number"
+            id="depositAmount"
+            placeholder="Amount (KSh)"
+            min="1"
+        >
+
+        <br><br>
+
+        <input
+            type="tel"
+            id="depositPhone"
+            placeholder="M-Pesa phone number"
+        >
+
+        <br><br>
+
+        <button
+            class="login-btn"
+            type="button"
+            id="depositBtn"
+        >
+            Deposit
+        </button>
+
+    </div>
+
+</section>
+
+<br>
     <div class="machine">
 
         <h3>
@@ -579,7 +618,109 @@ document
         }
     );
 
+document
+    .getElementById("depositBtn")
+    .addEventListener(
+        "click",
+        async function() {
 
+            const amount =
+                Number(
+                    document
+                        .getElementById("depositAmount")
+                        .value
+                );
+
+            const phone =
+                document
+                    .getElementById("depositPhone")
+                    .value
+                    .trim();
+
+
+            if (!amount || amount <= 0) {
+
+                alert(
+                    "Please enter a valid amount."
+                );
+
+                return;
+            }
+
+
+            if (!phone) {
+
+                alert(
+                    "Please enter your M-Pesa phone number."
+                );
+
+                return;
+            }
+
+
+            const {
+                data: {
+                    user
+                }
+            } =
+            await supabaseClient.auth.getUser();
+
+
+            if (!user) {
+
+                alert("Please login again.");
+
+                return;
+            }
+
+
+            const {
+                error
+            } =
+            await supabaseClient
+                .from("deposits")
+                .insert({
+
+                    user_id: user.id,
+
+                    amount: amount,
+
+                    phone: phone,
+
+                    status: "pending"
+
+                });
+
+
+            if (error) {
+
+                console.error(error);
+
+                alert(
+                    "Deposit request failed: " +
+                    error.message
+                );
+
+                return;
+            }
+
+
+            alert(
+                "Deposit request recorded successfully. Status: Pending."
+            );
+
+
+            document
+                .getElementById("depositAmount")
+                .value = "";
+
+
+            document
+                .getElementById("depositPhone")
+                .value = "";
+
+        }
+    );
 loadDashboard();
 loadUserMachines();
 loadAvailableMachines();
