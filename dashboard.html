@@ -58,7 +58,14 @@
     <div class="machine">
 
         <p>
-            Enter the amount you want to deposit.
+            Send the amount you want to deposit using M-Pesa.
+        </p>
+
+        <p>
+            <strong>M-Pesa Number / Till:</strong><br>
+            <span style="font-size:20px;">
+                YOUR TILL OR PHONE NUMBER
+            </span>
         </p>
 
         <input
@@ -71,9 +78,10 @@
         <br><br>
 
         <input
-            type="tel"
-            id="depositPhone"
-            placeholder="M-Pesa phone number"
+            type="text"
+            id="transactionCode"
+            placeholder="M-Pesa Transaction Code"
+            maxlength="20"
         >
 
         <br><br>
@@ -83,8 +91,13 @@
             type="button"
             id="depositBtn"
         >
-            Deposit
+            Submit Deposit
         </button>
+
+        <p style="font-size:13px;">
+            After sending the money, enter the M-Pesa
+            transaction code above and submit.
+        </p>
 
     </div>
 
@@ -618,78 +631,62 @@ document
         }
     );
 
-document
-    .getElementById("depositBtn")
-    .addEventListener(
-        "click",
-        async function() {
+document.getElementById("depositBtn").addEventListener("click", async function() {
 
-            const amount =
-                Number(
-                    document
-                        .getElementById("depositAmount")
-                        .value
-                );
+    const amount = Number(
+        document.getElementById("depositAmount").value
+    );
 
-            const phone =
-                document
-                    .getElementById("depositPhone")
-                    .value
-                    .trim();
+    const transactionCode =
+        document.getElementById("transactionCode").value
+        .trim()
+        .toUpperCase();
 
+    if (!amount || amount <= 0) {
+        alert("Please enter a valid deposit amount.");
+        return;
+    }
 
-            if (!amount || amount <= 0) {
+    if (!transactionCode) {
+        alert("Please enter your M-Pesa transaction code.");
+        return;
+    }
 
-                alert(
-                    "Please enter a valid amount."
-                );
+    const {
+        data: { user }
+    } = await supabaseClient.auth.getUser();
 
-                return;
-            }
+    if (!user) {
+        alert("Please login again.");
+        return;
+    }
 
+    const { error } = await supabaseClient
+        .from("deposits")
+        .insert({
+            user_id: user.id,
+            amount: amount,
+            phone: "",
+            transaction_id: transactionCode,
+            status: "pending"
+        });
 
-            if (!phone) {
+    if (error) {
+        console.error(error);
+        alert("Deposit submission failed: " + error.message);
+        return;
+    }
 
-                alert(
-                    "Please enter your M-Pesa phone number."
-                );
+    alert(
+        "Deposit submitted successfully.\n\n" +
+        "Transaction: " + transactionCode +
+        "\nStatus: Pending"
+    );
 
-                return;
-            }
+    document.getElementById("depositAmount").value = "";
+    document.getElementById("transactionCode").value = "";
 
-
-            const {
-                data: {
-                    user
-                }
-            } =
-            await supabaseClient.auth.getUser();
-
-
-            if (!user) {
-
-                alert("Please login again.");
-
-                return;
-            }
-
-
-            const {
-                error
-            } =
-            await supabaseClient
-                .from("deposits")
-                .insert({
-
-                    user_id: user.id,
-
-                    amount: amount,
-
-                    phone: phone,
-
-                    status: "pending"
-
-                });
+});
 
 
             if (error) {
